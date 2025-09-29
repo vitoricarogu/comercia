@@ -1,0 +1,230 @@
+```
+# 🚀 GUIA COMPLETO DE INSTALAÇÃO E CONFIGURAÇÃO - SISTEMA DINÂMICA SAAS
+
+Este guia detalha todos os passos necessários para configurar e executar o Sistema Dinâmica SaaS, garantindo que o frontend, backend e banco de dados (Supabase) estejam perfeitamente conectados e funcionando com dados reais.
+
+## 📋 PRÉ-REQUISITOS
+
+1.  **Node.js 18+**: Baixe e instale de https://nodejs.org/
+2.  **VSCode (Recomendado)**: Baixe de https://code.visualstudio.com/
+3.  **Conta Supabase**: Crie uma conta gratuita em https://supabase.com/
+
+## 🛠️ PASSO A PASSO PARA CONFIGURAÇÃO LOCAL
+
+### 1. Clonar o Projeto e Instalar Dependências
+
+1.  **Abra o terminal** (ou o terminal integrado do VSCode).
+2.  **Navegue até o diretório** onde deseja salvar o projeto.
+3.  **Clone o repositório** (se aplicável) ou descompacte os arquivos do projeto.
+4.  **Navegue para a pasta raiz do projeto**:
+    ```bash
+    cd dinamica-saas
+    ```
+5.  **Instale as dependências**:
+    ```bash
+    npm install
+    ```
+
+### 2. Configurar Variáveis de Ambiente
+
+As variáveis de ambiente são cruciais para a conexão entre os serviços.
+
+#### a) Configurar o Frontend (`.env` na raiz do projeto)
+
+1.  **Crie um arquivo** chamado `.env` na **raiz do projeto** (ao lado de `package.json`).
+2.  **Copie e cole** o seguinte conteúdo no arquivo `.env`:
+    ```
+    VITE_API_URL=http://localhost:3001/api
+    VITE_SOCKET_URL=http://localhost:3001
+    ```
+    *   `VITE_API_URL`: URL base para as requisições da API do backend.
+    *   `VITE_SOCKET_URL`: URL para a conexão WebSocket do Socket.IO.
+
+#### b) Configurar o Backend (`server/.env`)
+
+1.  **Navegue até a pasta `server/`**:
+    ```bash
+    cd server
+    ```
+2.  **Crie um arquivo** chamado `.env` dentro da pasta `server/`.
+3.  **Copie o conteúdo de `server/.env.example`** e cole no seu novo arquivo `server/.env`.
+4.  **Preencha as seguintes variáveis** com suas credenciais do Supabase:
+    *   **`SUPABASE_URL`**:
+        *   Vá para o painel do Supabase: `https://supabase.com/dashboard/projects/<your-project-ref>/settings/api`
+        *   Copie a "Project URL".
+        *   Exemplo: `SUPABASE_URL=https://abcdefghijk.supabase.co`
+    *   **`SUPABASE_SERVICE_ROLE_KEY`**:
+        *   Na mesma página de API Settings do Supabase, encontre a "Service Role (secret)" key.
+        *   Copie esta chave. **Mantenha-a em segredo!**
+        *   Exemplo: `SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY2RlZmdoaWprIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODkwMTIzNCwiZXhwIjoxOTk0MjY1NDU2fQ.YOUR_SERVICE_ROLE_KEY_HERE`
+    *   **`JWT_SECRET`**:
+        *   Crie uma string longa e complexa (pode ser uma sequência aleatória de caracteres).
+        *   Exemplo: `JWT_SECRET=uma_chave_secreta_muito_longa_e_complexa_para_producao_troque_isso`
+    *   **`CORS_ORIGIN`**:
+        *   Defina a URL do seu frontend.
+        *   Exemplo: `CORS_ORIGIN=http://localhost:5173`
+    *   **`PORT`**:
+        *   A porta que o backend irá escutar.
+        *   Exemplo: `PORT=3001`
+    *   **`NODE_ENV`**:
+        *   Ambiente de execução.
+        *   Exemplo: `NODE_ENV=development`
+
+    Seu arquivo `server/.env` deve ficar parecido com isto (com suas chaves reais):
+    ```
+    # Supabase Configuration
+    SUPABASE_URL=https://your-project-ref.supabase.co
+    SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
+    # JWT Configuration
+    JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+
+    # Server Configuration
+    PORT=3001
+    NODE_ENV=development
+
+    # API Keys para Integrações de IA (configure via painel admin)
+    OPENAI_API_KEY=
+    GOOGLE_GEMINI_API_KEY=
+    HUGGINGFACE_API_KEY=
+
+    # WhatsApp Business API Configuration (configure via usuário)
+    WHATSAPP_ACCESS_TOKEN=
+    WHATSAPP_PHONE_NUMBER_ID=
+    WHATSAPP_WEBHOOK_VERIFY_TOKEN=
+
+    # Security
+    SESSION_SECRET=your-session-secret-change-this
+    ENCRYPTION_KEY=your-encryption-key-32-chars-change-this
+
+    # Rate Limiting
+    RATE_LIMIT_WINDOW_MS=900000
+    RATE_LIMIT_MAX_REQUESTS=100
+
+    # CORS
+    CORS_ORIGIN=http://localhost:5173
+
+    # Logging
+    LOG_LEVEL=info
+
+    # File Upload
+    MAX_FILE_SIZE=10485760
+    UPLOAD_DIR=uploads
+
+    # Payment Configuration (if applicable)
+    STRIPE_SECRET_KEY=
+    STRIPE_PUBLISHABLE_KEY=
+    STRIPE_WEBHOOK_SECRET=
+    PAYPAL_CLIENT_ID=
+    PAYPAL_CLIENT_SECRET=
+    PAYPAL_MODE=sandbox
+    PIX_MERCHANT_ID=
+    PIX_MERCHANT_NAME=
+    PIX_MERCHANT_CITY=
+    PIX_KEY=
+    ```
+    *   Volte para a raiz do projeto: `cd ..`
+
+### 3. Configurar o Banco de Dados Supabase
+
+1.  **Acesse o painel do Supabase**: `https://supabase.com/dashboard`
+2.  **Selecione seu projeto**.
+3.  No menu lateral, vá para **"SQL Editor"**.
+4.  **Abra o arquivo `supabase/migrations/20250921234147_orange_canyon.sql`** no seu editor de código.
+5.  **Copie todo o conteúdo** deste arquivo.
+6.  **Cole o conteúdo no SQL Editor** do Supabase e clique em **"RUN"** para executar as migrações e criar todas as tabelas necessárias.
+
+### 4. Inserir Dados Iniciais (Opcional, mas Recomendado)
+
+Para ter usuários de teste e dados básicos, execute os seguintes comandos SQL no SQL Editor do Supabase (após a migração):
+
+```sql
+-- Inserir usuários de teste
+INSERT INTO users (id, name, email, password, role, plan, is_active) VALUES
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Admin Sistema', 'admin@dinamica.com', '$2a$12$hash_da_senha_admin123', 'admin', 'enterprise', true),
+('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'Usuário Teste', 'teste@dinamica.com', '$2a$12$hash_da_senha_teste123', 'user', 'free', true),
+('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 'Barbearia Teste', 'barbearia@dinamica.com', '$2a$12$hash_da_senha_barbearia123', 'barbearia', 'basic', true);
+
+-- ATENÇÃO: Substitua 'hash_da_senha_admin123', 'hash_da_senha_teste123', 'hash_da_senha_barbearia123'
+-- por hashes reais gerados com bcrypt para as senhas 'admin123', 'teste123', 'barbearia123' respectivamente.
+-- Você pode gerar esses hashes usando um script Node.js simples:
+-- const bcrypt = require('bcryptjs');
+-- bcrypt.hash('sua_senha', 12).then(hash => console.log(hash));
+
+-- Inserir serviços padrão para barbearia (usando o ID do usuário 'barbearia@dinamica.com')
+INSERT INTO servicos (user_id, nome, descricao, preco, duracao, is_active) VALUES
+((SELECT id FROM users WHERE email = 'barbearia@dinamica.com'), 'Corte Masculino', 'Corte de cabelo masculino tradicional', 25.00, 30, true),
+((SELECT id FROM users WHERE email = 'barbearia@dinamica.com'), 'Barba', 'Aparar e modelar barba', 15.00, 20, true),
+((SELECT id FROM users WHERE email = 'barbearia@dinamica.com'), 'Cabelo + Barba', 'Corte completo com barba', 35.00, 45, true),
+((SELECT id FROM users WHERE email = 'barbearia@dinamica.com'), 'Sobrancelha', 'Design de sobrancelha masculina', 10.00, 15, true);
+```
+*   **Importante**: Os `id`s dos usuários (`a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11`, etc.) são exemplos. O Supabase gera UUIDs automaticamente. Se você não especificar o `id`, ele será gerado. Se você quiser IDs específicos para testes, certifique-se de que eles sejam UUIDs válidos e únicos.
+*   **Geração de Hash de Senha**: As senhas no SQL acima são placeholders. Você **DEVE** gerar os hashes bcrypt reais para as senhas `admin123`, `teste123` e `barbearia123` e substituí-los no script SQL antes de executar.
+
+### 5. Iniciar o Sistema
+
+1.  **Abra dois terminais** na raiz do projeto (`dinamica-saas/`).
+
+2.  **No primeiro terminal, inicie o Backend**:
+    ```bash
+    npm run server:dev
+    ```
+    Aguarde a mensagem: `🚀 Sistema Dinâmica SaaS v2.0` e `✅ Supabase conectado com sucesso`.
+
+3.  **No segundo terminal, inicie o Frontend**:
+    ```bash
+    npm run dev
+    ```
+    Aguarde a mensagem: `Local: http://localhost:5173`
+
+### 6. Acessar o Sistema
+
+*   **Frontend**: Abra seu navegador e acesse `http://localhost:5173`
+*   **Backend API Health Check**: `http://localhost:3001/api/health`
+*   **Página de Testes**: `http://localhost:5173/teste`
+
+### 7. Credenciais de Acesso Padrão
+
+*   **Admin**: `admin@dinamica.com` / `admin123`
+*   **Usuário Teste**: `teste@dinamica.com` / `teste123`
+*   **Barbearia**: `barbearia@dinamica.com` / `barbearia123`
+
+## ⚙️ CONFIGURAÇÕES ADICIONAIS (VIA INTERFACE DO SISTEMA)
+
+Após o login, você pode configurar as APIs de IA e as integrações de WhatsApp/Email através do painel do sistema.
+
+### 1. APIs Globais de IA (Painel Administrativo)
+
+*   **Login como Admin**: `admin@dinamica.com` / `admin123`
+*   Vá para **"Painel Administrativo"** -> **"APIs Globais"**.
+*   Insira suas chaves de API para:
+    *   **Google Gemini**: Obtenha em `https://makersuite.google.com/app/apikey`
+    *   **OpenAI**: Obtenha em `https://platform.openai.com/api-keys`
+    *   **Hugging Face**: Obtenha em `https://huggingface.co/settings/tokens`
+*   Clique em "Salvar" para cada chave.
+
+### 2. Configurações de WhatsApp e Email (Painel do Usuário)
+
+*   **Login como Usuário Regular** (`teste@dinamica.com` / `teste123`) ou **Barbearia** (`barbearia@dinamica.com` / `barbearia123`).
+*   Vá para **"APIs"** no menu lateral.
+*   **WhatsApp Business API**:
+    *   Clique em "Adicionar WhatsApp".
+    *   Preencha `Nome`, `Access Token`, `Phone Number ID` (obtenha no Meta Business Account: `https://developers.facebook.com/docs/whatsapp`).
+    *   Clique em "Salvar" e depois em "Testar" para verificar a conexão.
+*   **Configurações de Email**:
+    *   Preencha os detalhes do seu servidor SMTP (`Servidor SMTP`, `Porta`, `Usuário`, `Senha`, `Nome do Remetente`, `Email do Remetente`).
+    *   Clique em "Salvar Configurações de Email".
+
+## 🧹 LIMPEZA DE ARQUIVOS
+
+*   O arquivo `server/handlers/socketHandlers.js` foi removido, pois era obsoleto e não utilizado.
+
+## ✅ GARANTIAS
+
+*   **Conexão Real**: Todos os dados são persistidos e recuperados do Supabase, sem dados mockados.
+*   **CSS Funcional**: Tailwind CSS carregado via CDN, garantindo estilos consistentes.
+*   **APIs Integradas**: Frontend e Backend se comunicam usando URLs configuráveis, e o backend se conecta ao Supabase.
+*   **Tratamento de Erros**: `ErrorBoundary` no frontend e tratamento robusto no backend para uma experiência mais estável.
+
+**Seu sistema está agora pronto para ser usado e testado!**
+```

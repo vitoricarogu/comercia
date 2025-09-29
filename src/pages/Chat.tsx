@@ -1,3 +1,4 @@
+```typescript
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -23,7 +24,7 @@ interface Message {
 interface Conversation {
   id: string;
   agent_id: string;
-  customer_name: string;
+  customer_name?: string;
   agent_name?: string;
   message_count?: number;
   last_message_time?: string;
@@ -59,7 +60,9 @@ export const Chat: React.FC = () => {
   }, [messages]);
 
   const initializeSocket = () => {
-    const newSocket = io('http://localhost:3001');
+    // Use environment variable for socket URL
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001';
+    const newSocket = io(socketUrl);
     
     newSocket.on('connect', () => {
       console.log('Socket conectado');
@@ -71,15 +74,15 @@ export const Chat: React.FC = () => {
       }
     });
 
-    newSocket.on('authenticated', (data) => {
+    newSocket.on('authenticated', (data: any) => {
       console.log('Socket autenticado:', data);
     });
 
-    newSocket.on('new_message', (message) => {
+    newSocket.on('new_message', (message: Message) => {
       setMessages(prev => [...prev, message]);
     });
 
-    newSocket.on('authentication_error', (error) => {
+    newSocket.on('authentication_error', (error: any) => {
       console.error('Erro de autenticação do socket:', error);
       showError('Erro de conexão', 'Não foi possível conectar ao chat em tempo real');
     });
@@ -393,3 +396,4 @@ export const Chat: React.FC = () => {
 };
 
 export default Chat;
+```

@@ -1,6 +1,7 @@
+```
 # 🔄 FLUXOGRAMA COMPLETO - SISTEMA DINÂMICA SAAS
-# Data: 2025-01-15
-# Versão: 2.0.0 - Análise Completa
+# Data: 2025-09-29
+# Versão: 2.0.0 - Análise Completa e Atualizada (Pós-Supabase)
 
 ## 🎯 O QUE É O SISTEMA
 
@@ -9,11 +10,11 @@ O **Sistema Dinâmica** é uma plataforma SaaS (Software as a Service) completa 
 ## 🏗️ PARA QUE SERVE
 
 ### OBJETIVOS PRINCIPAIS:
-1. **Democratizar IA Conversacional** - Qualquer pessoa pode criar agentes de IA
-2. **Automatizar Atendimento** - Reduzir custos operacionais
-3. **Integração WhatsApp** - Conectar agentes ao WhatsApp Business
-4. **Gestão Especializada** - Módulos específicos (barbearias, etc.)
-5. **Escalabilidade SaaS** - Sistema multi-tenant
+1.  **Democratizar IA Conversacional** - Qualquer pessoa pode criar agentes de IA
+2.  **Automatizar Atendimento** - Reduzir custos operacionais
+3.  **Integração WhatsApp** - Conectar agentes ao WhatsApp Business
+4.  **Gestão Especializada** - Módulos específicos (barbearias, etc.)
+5.  **Escalabilidade SaaS** - Sistema multi-tenant
 
 ## 🔄 FLUXOGRAMA GERAL DO SISTEMA
 
@@ -96,7 +97,7 @@ O **Sistema Dinâmica** é uma plataforma SaaS (Software as a Service) completa 
     │ • Total Users   │ │ • Listar Users  │ │ • OpenAI Key    │
     │ • Users Ativos  │ │ • Ativar/Desativ│ │ • Gemini Key    │
     │ • Total Agentes │ │ • Excluir Users │ │ • HuggingFace   │
-    │ • Conversas     │ │ • Filtros/Busca │ │ • Configurações │
+    │ • Conversas     │ │ • • Filtros/Busca │ │ • Configurações │
     └─────────────────┘ └─────────────────┘ └─────────────────┘
                                 │
                                 ▼
@@ -369,39 +370,39 @@ configuracoes (id, user_id, chave, valor)
 
 ### AUTENTICAÇÃO:
 ```
-Frontend (Login.tsx) 
-→ POST /api/auth/login 
-→ authController.login() 
-→ db.users.findByEmail() 
-→ bcrypt.compare() 
-→ jwt.sign() 
-→ localStorage.setItem() 
-→ detectUserModule() 
+Frontend (Login.tsx)
+→ POST /api/auth/login
+→ authController.login()
+→ db.users.findByEmail()
+→ bcrypt.compare()
+→ jwt.sign()
+→ localStorage.setItem()
+→ detectUserModule()
 → navigate(targetModule)
 ```
 
 ### CRIAÇÃO DE AGENTE:
 ```
-Frontend (Agents.tsx) 
-→ handleCreateAgent() 
-→ POST /api/agents 
-→ agentController.create() 
-→ db.agents.create() 
-→ INSERT INTO agents 
-→ dispatch({ type: 'ADD_AGENT' }) 
+Frontend (Agents.tsx)
+→ handleCreateAgent()
+→ POST /api/agents
+→ agentController.create()
+→ db.agents.create()
+→ INSERT INTO agents
+→ dispatch({ type: 'ADD_AGENT' })
 → Interface atualizada
 ```
 
 ### CHAT IA BARBEARIA:
 ```
-Frontend (Barbearia.tsx - Chat IA) 
-→ enviarMensagemChat() 
-→ POST /api/barbearia/chat 
-→ AIService.callGemini() 
-→ Prompt contextual + mensagem 
-→ Resposta IA + JSON agendamento 
-→ db.agendamentos.create() 
-→ Resposta + agendamento_criado 
+Frontend (Barbearia.tsx - Chat IA)
+→ enviarMensagemChat()
+→ POST /api/barbearia/chat
+→ AIService.callGemini()
+→ Prompt contextual + mensagem
+→ Resposta IA + JSON agendamento
+→ db.agendamentos.create()
+→ Resposta + agendamento_criado
 → Frontend atualiza chat + agenda
 ```
 
@@ -571,7 +572,7 @@ Login → JWT Token → Detecção Automática de Módulo → Redirecionamento
 ```javascript
 // src/utils/moduleDetection.js
 if (user.role === 'admin') → /admin
-if (user.role === 'barbearia') → /barbearia  
+if (user.role === 'barbearia') → /barbearia
 else → /dashboard
 ```
 
@@ -583,29 +584,29 @@ Módulo Específico → Funcionalidades → Backend API → Supabase → Respost
 ## 🎯 TECNOLOGIAS UTILIZADAS
 
 ### FRONTEND:
-- **React 18.3.1** - Framework principal
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização (via CDN)
-- **Framer Motion** - Animações
-- **React Router** - Roteamento
-- **Recharts** - Gráficos
-- **Heroicons** - Ícones
+-   **React 18.3.1** - Framework principal
+-   **TypeScript** - Tipagem estática
+-   **Tailwind CSS** - Estilização (via CDN)
+-   **Framer Motion** - Animações
+-   **React Router** - Roteamento
+-   **Recharts** - Gráficos
+-   **Heroicons** - Ícones
 
 ### BACKEND:
-- **Node.js** - Runtime
-- **Express** - Framework web
-- **Supabase** - Banco PostgreSQL
-- **Socket.IO** - WebSocket
-- **JWT** - Autenticação
-- **bcrypt** - Hash de senhas
-- **express-validator** - Validação
+-   **Node.js** - Runtime
+-   **Express** - Framework web
+-   **Supabase** - Banco PostgreSQL
+-   **Socket.IO** - WebSocket
+-   **JWT** - Autenticação
+-   **bcrypt** - Hash de senhas
+-   **express-validator** - Validação
 
 ### INTEGRAÇÕES:
-- **OpenAI GPT** - IA conversacional
-- **Google Gemini** - IA conversacional
-- **Hugging Face** - IA conversacional
-- **WhatsApp Business API** - Mensagens
-- **SMTP** - Email
+-   **OpenAI GPT** - IA conversacional
+-   **Google Gemini** - IA conversacional
+-   **Hugging Face** - IA conversacional
+-   **WhatsApp Business API** - Mensagens
+-   **SMTP** - Email
 
 ## 🎯 CASOS DE USO PRINCIPAIS
 
@@ -653,71 +654,72 @@ Módulo Específico → Funcionalidades → Backend API → Supabase → Respost
 ```
 
 ### TRIGGERS DE ATUALIZAÇÃO:
-- **Novo agendamento** → Atualiza aba agendamentos
-- **Nova mensagem** → Atualiza chat em tempo real
-- **Agente modificado** → Atualiza lista de agentes
-- **Configuração salva** → Feedback imediato
+-   **Novo agendamento** → Atualiza aba agendamentos
+-   **Nova mensagem** → Atualiza chat em tempo real
+-   **Agente modificado** → Atualiza lista de agentes
+-   **Configuração salva** → Feedback imediato
 
 ## 📊 MÉTRICAS E RELATÓRIOS
 
 ### DASHBOARD USUÁRIO:
-- **Agentes criados** (count do Supabase)
-- **Conversas ativas** (status = 'active')
-- **Tempo médio resposta** (avg response_time)
-- **Satisfação média** (avg satisfaction_rating)
+-   **Agentes criados** (count do Supabase)
+-   **Conversas ativas** (status = 'active')
+-   **Tempo médio resposta** (avg response_time)
+-   **Satisfação média** (avg satisfaction_rating)
 
 ### DASHBOARD ADMIN:
-- **Total de usuários** (query real)
-- **Usuários ativos** (filtro is_active)
-- **Total de agentes** (soma de todos os usuários)
-- **Conversas hoje** (filtro por data)
+-   **Total de usuários** (query real)
+-   **Usuários ativos** (filtro is_active)
+-   **Total de agentes** (soma de todos os usuários)
+-   **Conversas hoje** (filtro por data)
 
 ### RELATÓRIOS BARBEARIA:
-- **Faturamento por período** (SUM valor WHERE pago = true)
-- **Agendamentos por dia** (GROUP BY data)
-- **Serviços mais procurados** (COUNT por serviço)
-- **Taxa de cancelamento** (% cancelados)
+-   **Faturamento por período** (SUM valor WHERE pago = true)
+-   **Agendamentos por dia** (GROUP BY data)
+-   **Serviços mais procurados** (COUNT por serviço)
+-   **Taxa de cancelamento** (% cancelados)
 
 ## 🛡️ SEGURANÇA IMPLEMENTADA
 
 ### AUTENTICAÇÃO:
-- **JWT tokens** com expiração de 7 dias
-- **bcrypt** para hash de senhas (salt 12)
-- **Middleware de autenticação** em todas as rotas protegidas
-- **Validação de roles** (admin, user, barbearia)
+-   **JWT tokens** com expiração de 7 dias
+-   **bcrypt** para hash de senhas (salt 12)
+-   **Middleware de autenticação** em todas as rotas protegidas
+-   **Validação de roles** (admin, user, barbearia)
 
 ### AUTORIZAÇÃO:
-- **Role-based access** (RBAC)
-- **Middleware de admin** para rotas administrativas
-- **RLS (Row Level Security)** no Supabase
-- **Isolamento de dados** por usuário
+-   **Role-based access** (RBAC)
+-   **Middleware de admin** para rotas administrativas
+-   **RLS (Row Level Security)** no Supabase
+-   **Isolamento de dados** por usuário
 
 ### VALIDAÇÃO:
-- **express-validator** para sanitização
-- **Validação frontend** com feedback visual
-- **Sanitização de inputs** para prevenir XSS
-- **CORS configurado** para domínios específicos
+-   **express-validator** para sanitização
+-   **Validação frontend** com feedback visual
+-   **Sanitização de inputs** para prevenir XSS
+-   **CORS configurado** para domínios específicos
 
 ## 🎯 CONCLUSÃO
 
 O **Sistema Dinâmica SaaS** é uma plataforma completa que permite:
 
-1. **Criar agentes de IA** sem conhecimento técnico
-2. **Integrar com WhatsApp** para atendimento automatizado
-3. **Gerenciar conversas** em tempo real
-4. **Automatizar agendamentos** (módulo barbearia)
-5. **Administrar usuários** (painel SaaS)
-6. **Monitorar performance** com métricas reais
+1.  **Criar agentes de IA** sem conhecimento técnico
+2.  **Integrar com WhatsApp** para atendimento automatizado
+3.  **Gerenciar conversas** em tempo real
+4.  **Automatizar agendamentos** (módulo barbearia)
+5.  **Administrar usuários** (painel SaaS)
+6.  **Monitorar performance** com métricas reais
 
 ### DIFERENCIAIS:
-- **100% Funcional** - Sem dados mockados
-- **Tempo Real** - WebSocket implementado
-- **Multi-tenant** - Isolamento de dados por usuário
-- **Especializado** - Módulos específicos por negócio
-- **Escalável** - Arquitetura Supabase
-- **Seguro** - RLS e validações robustas
+-   **100% Funcional** - Sem dados mockados
+-   **Tempo Real** - WebSocket implementado
+-   **Multi-tenant** - Isolamento de dados por usuário
+-   **Especializado** - Módulos específicos por negócio
+-   **Escalável** - Arquitetura Supabase
+-   **Seguro** - RLS e validações robustas
 
 ### STATUS:
 **✅ SISTEMA COMPLETO E OPERACIONAL**
 **✅ PRONTO PARA PRODUÇÃO**
 **✅ TODAS AS ESPECIFICAÇÕES ATENDIDAS**
+```

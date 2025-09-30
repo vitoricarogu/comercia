@@ -6,6 +6,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { Layout } from './components/Layout/Layout';
 import { apiService } from './services/api';
 
+const LandingPage = lazy(() => import('./pages/LandingPage').then(module => ({ default: module.LandingPage })));
 const Login = lazy(() => import('./pages/Login').then(module => ({ default: module.Login })));
 const Register = lazy(() => import('./pages/Register').then(module => ({ default: module.Register })));
 const Dashboard = lazy(() => import('./pages/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -17,6 +18,13 @@ const Configuracoes = lazy(() => import('./pages/Configuracoes').then(module => 
 const Barbearia = lazy(() => import('./pages/Barbearia').then(module => ({ default: module.Barbearia })));
 const Admin = lazy(() => import('./pages/Admin').then(module => ({ default: module.Admin })));
 const Teste = lazy(() => import('./pages/Teste').then(module => ({ default: module.Teste })));
+
+// New pages for specific modules
+const SupermarketDashboard = lazy(() => import('./pages/SupermarketDashboard').then(module => ({ default: module.SupermarketDashboard })));
+const SupermarketAgents = lazy(() => import('./pages/SupermarketAgents').then(module => ({ default: module.SupermarketAgents })));
+const SupermarketERPConfig = lazy(() => import('./pages/SupermarketERPConfig').then(module => ({ default: module.SupermarketERPConfig })));
+const BarbershopSchedule = lazy(() => import('./pages/BarbershopSchedule').then(module => ({ default: module.BarbershopSchedule })));
+const AdminUsers = lazy(() => import('./pages/AdminUsers').then(module => ({ default: module.AdminUsers })));
 
 const LoadingSpinner: React.FC = () => (
   <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -63,10 +71,10 @@ const AppContent: React.FC = () => {
       <ErrorBoundary>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/teste" element={<Teste />} />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             
             <Route
               path="/barbearia"
@@ -78,10 +86,55 @@ const AppContent: React.FC = () => {
             />
             
             <Route
+              path="/dashboard/barber/*"
+              element={
+                <ProtectedRoute requiredRole="barbearia">
+                  <Layout>
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/agents" element={<Agents />} />
+                        <Route path="/schedule" element={<BarbershopSchedule />} />
+                        <Route path="/chat/:agentId" element={<Chat />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Routes>
+                    </Suspense>
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/dashboard/user/*"
+              element={
+                <ProtectedRoute requiredRole="normal">
+                  <Layout>
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <Routes>
+                        <Route path="/" element={<SupermarketDashboard />} />
+                        <Route path="/agents" element={<SupermarketAgents />} />
+                        <Route path="/chat/:agentId" element={<Chat />} />
+                        <Route path="/erp-config" element={<SupermarketERPConfig />} />
+                        <Route path="/settings" element={<Settings />} />
+                      </Routes>
+                    </Suspense>
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
               path="/admin"
               element={
                 <ProtectedRoute requiredRole="admin">
-                  <Admin />
+                  <Layout>
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <Routes>
+                        <Route path="/" element={<Admin />} />
+                        <Route path="/users" element={<AdminUsers />} />
+                      </Routes>
+                    </Suspense>
+                  </Layout>
                 </ProtectedRoute>
               }
             />

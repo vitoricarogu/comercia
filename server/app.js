@@ -20,6 +20,8 @@ import agentRoutes from './routes/agents.js';
 import conversationRoutes from './routes/conversations.js';
 import chatRoutes from './routes/chat.js';
 import barbeariaRoutes from './routes/barbearia.js';
+import barbershopRoutes from './routes/barbershop.js';
+import supermarketRoutes from './routes/supermarket.js';
 import adminRoutes from './routes/admin.js';
 import configRoutes from './routes/config.js';
 
@@ -70,6 +72,8 @@ app.use('/api/agents', agentRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/barbearia', barbeariaRoutes);
+app.use('/api/barbershop', barbershopRoutes);
+app.use('/api/supermarket', supermarketRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/config', configRoutes);
 

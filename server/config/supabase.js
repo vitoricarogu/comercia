@@ -484,6 +484,106 @@ export const db = {
     }
   },
 
+  // Pedidos (Supermercado)
+  orders: {
+    async create(userId, orderData) {
+      if (!supabase) throw new Error('Supabase não configurado');
+      
+      const { data, error } = await supabase
+        .from('orders')
+        .insert({
+          ...orderData,
+          user_id: userId,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+      
+      if (error) throw new Error(`Erro ao criar pedido: ${error.message}`);
+      return data;
+    },
+    
+    async findByUserId(userId, filters = {}, limit = 50) {
+      if (!supabase) return [];
+      
+      let query = supabase
+        .from('orders')
+        .select('*')
+        .eq('user_id', userId);
+      
+      if (filters.status) query = query.eq('status', filters.status);
+      if (filters.agent_id) query = query.eq('agent_id', filters.agent_id);
+      
+      const { data, error } = await query
+        .order('created_at', { ascending: false })
+        .limit(limit);
+      
+      if (error) throw new Error(`Erro ao buscar pedidos: ${error.message}`);
+      return data || [];
+    }
+  },
+
+  // Agendamentos (Barbearia)
+  appointments: {
+    async create(userId, appointmentData) {
+      if (!supabase) throw new Error('Supabase não configurado');
+      
+      const { data, error } = await supabase
+        .from('appointments')
+        .insert({
+          ...appointmentData,
+          user_id: userId,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+      
+      if (error) throw new Error(`Erro ao criar agendamento: ${error.message}`);
+      return data;
+    },
+    
+    async findByUserId(userId, filters = {}) {
+      if (!supabase) return [];
+      
+      let query = supabase
+        .from('appointments')
+        .select('*')
+        .eq('user_id', userId);
+      
+      if (filters.date) {
+        const startDate = `${filters.date}T00:00:00`;
+        const endDate = `${filters.date}T23:59:59`;
+        query = query.gte('datetime', startDate).lte('datetime', endDate);
+      }
+      
+      if (filters.status) query = query.eq('status', filters.status);
+      
+      const { data, error } = await query.order('datetime', { ascending: true });
+      
+      if (error) throw new Error(`Erro ao buscar agendamentos: ${error.message}`);
+      return data || [];
+    },
+    
+    async update(id, updates) {
+      if (!supabase) throw new Error('Supabase não configurado');
+      
+      const { data, error } = await supabase
+        .from('appointments')
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw new Error(`Erro ao atualizar agendamento: ${error.message}`);
+      return data;
+    }
+  },
+
   // Barbearia - Serviços
   servicos: {
     async findByUserId(userId) {

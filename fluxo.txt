@@ -1,4 +1,8 @@
 ```
+
+
+
+start
 # 🔄 FLUXOGRAMA COMPLETO - SISTEMA DINÂMICA SAAS
 # Data: 2025-09-29
 # Versão: 2.0.0 - Análise Completa e Atualizada (Pós-Supabase)
@@ -97,7 +101,7 @@ O **Sistema Dinâmica** é uma plataforma SaaS (Software as a Service) completa 
     │ • Total Users   │ │ • Listar Users  │ │ • OpenAI Key    │
     │ • Users Ativos  │ │ • Ativar/Desativ│ │ • Gemini Key    │
     │ • Total Agentes │ │ • Excluir Users │ │ • HuggingFace   │
-    │ • Conversas     │ │ • • Filtros/Busca │ │ • Configurações │
+    │ • Conversas     │ │ • Filtros/Busca │ │ • Configurações │
     └─────────────────┘ └─────────────────┘ └─────────────────┘
                                 │
                                 ▼
@@ -610,116 +614,4 @@ Módulo Específico → Funcionalidades → Backend API → Supabase → Respost
 
 ## 🎯 CASOS DE USO PRINCIPAIS
 
-### 1. ADMINISTRADOR:
-```
-1. Login: admin@dinamica.com / admin123
-2. Configurar APIs Globais (OpenAI, Gemini, HuggingFace)
-3. Gerenciar usuários (ativar/desativar/excluir)
-4. Monitorar métricas do sistema
-5. Configurar limites e quotas
-```
-
-### 2. USUÁRIO REGULAR:
-```
-1. Registro como "Usuário Regular"
-2. Configurar WhatsApp Business API
-3. Criar agentes de IA personalizados
-4. Testar agentes no Chat IA
-5. Monitorar conversas e métricas
-6. Vincular agentes a WhatsApps específicos
-```
-
-### 3. BARBEARIA:
-```
-1. Registro como "Barbearia"
-2. Configurar API Key do Gemini
-3. Criar agente especializado na aba "Agente de IA"
-4. Configurar serviços e preços
-5. Usar Chat IA para agendamentos automáticos:
-   - "Agendar corte para João, telefone (11) 99999-9999, hoje às 15h"
-   - IA cria agendamento automaticamente
-6. Gerenciar agenda, clientes e relatórios
-```
-
-## 🔄 SINCRONIZAÇÃO EM TEMPO REAL
-
-### WEBSOCKET EVENTS:
-```javascript
-'authenticate' → Autenticação do socket
-'send_message' → Envio de mensagem
-'new_message' → Nova mensagem recebida
-'join_conversation' → Entrar em conversa
-'agent_updated' → Agente atualizado
-'new_conversation' → Nova conversa criada
-```
-
-### TRIGGERS DE ATUALIZAÇÃO:
--   **Novo agendamento** → Atualiza aba agendamentos
--   **Nova mensagem** → Atualiza chat em tempo real
--   **Agente modificado** → Atualiza lista de agentes
--   **Configuração salva** → Feedback imediato
-
-## 📊 MÉTRICAS E RELATÓRIOS
-
-### DASHBOARD USUÁRIO:
--   **Agentes criados** (count do Supabase)
--   **Conversas ativas** (status = 'active')
--   **Tempo médio resposta** (avg response_time)
--   **Satisfação média** (avg satisfaction_rating)
-
-### DASHBOARD ADMIN:
--   **Total de usuários** (query real)
--   **Usuários ativos** (filtro is_active)
--   **Total de agentes** (soma de todos os usuários)
--   **Conversas hoje** (filtro por data)
-
-### RELATÓRIOS BARBEARIA:
--   **Faturamento por período** (SUM valor WHERE pago = true)
--   **Agendamentos por dia** (GROUP BY data)
--   **Serviços mais procurados** (COUNT por serviço)
--   **Taxa de cancelamento** (% cancelados)
-
-## 🛡️ SEGURANÇA IMPLEMENTADA
-
-### AUTENTICAÇÃO:
--   **JWT tokens** com expiração de 7 dias
--   **bcrypt** para hash de senhas (salt 12)
--   **Middleware de autenticação** em todas as rotas protegidas
--   **Validação de roles** (admin, user, barbearia)
-
-### AUTORIZAÇÃO:
--   **Role-based access** (RBAC)
--   **Middleware de admin** para rotas administrativas
--   **RLS (Row Level Security)** no Supabase
--   **Isolamento de dados** por usuário
-
-### VALIDAÇÃO:
--   **express-validator** para sanitização
--   **Validação frontend** com feedback visual
--   **Sanitização de inputs** para prevenir XSS
--   **CORS configurado** para domínios específicos
-
-## 🎯 CONCLUSÃO
-
-O **Sistema Dinâmica SaaS** é uma plataforma completa que permite:
-
-1.  **Criar agentes de IA** sem conhecimento técnico
-2.  **Integrar com WhatsApp** para atendimento automatizado
-3.  **Gerenciar conversas** em tempo real
-4.  **Automatizar agendamentos** (módulo barbearia)
-5.  **Administrar usuários** (painel SaaS)
-6.  **Monitorar performance** com métricas reais
-
-### DIFERENCIAIS:
--   **100% Funcional** - Sem dados mockados
--   **Tempo Real** - WebSocket implementado
--   **Multi-tenant** - Isolamento de dados por usuário
--   **Especializado** - Módulos específicos por negócio
--   **Escalável** - Arquitetura Supabase
--   **Seguro** - RLS e validações robustas
-
-### STATUS:
-**✅ SISTEMA COMPLETO E OPERACIONAL**
-**✅ PRONTO PARA PRODUÇÃO**
-**✅ TODAS AS ESPECIFICAÇÕES ATENDIDAS**
-```
+### 1. ADMIN

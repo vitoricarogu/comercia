@@ -4,7 +4,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ClockIcon,
-  DatabaseIcon,
+  CubeIcon, // substitui DatabaseIcon
   ServerIcon,
   CogIcon,
   ChatBubbleLeftRightIcon,
